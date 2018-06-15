@@ -17,42 +17,42 @@
  */
 int ct_format_path(char *path, const size_t pathlen, const char *file)
 {
-	int rc;
+        int rc;
 
-	if (!file)
-		return 0;
+        if (!file)
+                return 0;
 
 #if defined (sunray) || defined (sunrayclient)
-	{
-		if (getenv("UTDEVROOT"))
-			rc = snprintf(path, pathlen,
-				      "%s/openct/%s", getenv("UTDEVROOT"),
-				      file);
-		else if (getenv("OPENCT_SOCKETDIR"))
-			rc = snprintf(path, pathlen,
-				      "%s/%s", getenv("OPENCT_SOCKETDIR"),
-				      file);
-		else
-			rc = snprintf(path, pathlen,
-				      "%s/%s", OPENCT_SOCKET_PATH, file);
-	}
+        {
+                if (getenv("UTDEVROOT"))
+                        rc = snprintf(path, pathlen,
+                                      "%s/openct/%s", getenv("UTDEVROOT"),
+                                      file);
+                else if (getenv("OPENCT_SOCKETDIR"))
+                        rc = snprintf(path, pathlen,
+                                      "%s/%s", getenv("OPENCT_SOCKETDIR"),
+                                      file);
+                else
+                        rc = snprintf(path, pathlen,
+                                      "%s/%s", OPENCT_SOCKET_PATH, file);
+        }
 #else
-	if (getenv("OPENCT_SOCKETDIR")) {
-		rc = snprintf(path, pathlen,
-			      "%s/%s", getenv("OPENCT_SOCKETDIR"), file);
-	} else {
-		rc = snprintf(path, pathlen, "%s/%s", OPENCT_SOCKET_PATH, file);
-	}
+        if (getenv("OPENCT_SOCKETDIR")) {
+                rc = snprintf(path, pathlen,
+                              "%s/%s", getenv("OPENCT_SOCKETDIR"), file);
+        } else {
+                rc = snprintf(path, pathlen, "%s/%s", OPENCT_SOCKET_PATH, file);
+        }
 #endif
-	if (rc < 0) {
-		/* hmm. error handling? */
-		return 0;
+        if (rc < 0) {
+                /* hmm. error handling? */
+                return 0;
 
-	}
-	if (rc >= pathlen) {
-		/* truncated */
-		return 0;
-	}
+        }
+        if (rc >= pathlen) {
+                /* truncated */
+                return 0;
+        }
 
-	return 1;
+        return 1;
 }

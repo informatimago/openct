@@ -13,8 +13,8 @@
 DEVICE="/dev/bus/usb/${BUSNUM}/${DEVNUM}"
 
 if ! [ -e "${DEVICE}" ]; then
-	mkdir -p "$(dirname "${DEVICE}")"
-	mknod "${DEVICE}" c ${MAJOR} ${MINOR}
+        mkdir -p "$(dirname "${DEVICE}")"
+        mknod "${DEVICE}" c ${MAJOR} ${MINOR}
 fi
 
 [ -e "@OPENCT_SOCKET_PATH@/status" ] || exit 0

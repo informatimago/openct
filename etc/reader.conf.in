@@ -2,8 +2,8 @@
 # http://www.opensc.org/openct/
 
 FRIENDLYNAME     "OpenCT"
-DEVICENAME       /dev/null 
+DEVICENAME       /dev/null
 LIBPATH          @libdir@/openct-ifd.so
-CHANNELID        0 
+CHANNELID        0
 
 # End of file

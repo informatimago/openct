@@ -7,7 +7,7 @@ sources = openct.udev.in openct.udev.modalias.in openct.udev.compat openct_usb.m
 	init-script.in openct.hald.in openct_usb.mdev.in \
 	openct_usb.in openct_pcmcia.in openct_serial.in
 generated_data = openct.udev openct.udev.modalias openct_usb.mdev \
-	openct.conf openct.hald reader.conf 
+	openct.conf openct.hald reader.conf
 noinst_generated_scripts = init-script openct.hald openct_usb.mdev
 udev_generated_scripts = openct_usb openct_pcmcia openct_serial
 

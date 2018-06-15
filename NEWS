@@ -27,8 +27,8 @@ New in 0.6.16; 2009-05-04; Andreas Jellinghaus
 * Re-add api documentation (pre-generated), like we used to.
 
 New in 0.6.15; 2008-07-31; Andreas Jellinghaus
-* Build system rewritten (NOTICE: configure options was modified). 
-* Build system rewritten (NOTICE: configure options was modified). 
+* Build system rewritten (NOTICE: configure options was modified).
+* Build system rewritten (NOTICE: configure options was modified).
 * None privileged configuration added, as a result /etc/openct.conf ifdhandler
   was modified, please review sample at etc/openct.conf before upgrade.
 * The usb device add (/dev/bus/usb/$env{BUSNUM}/$env{DEVNUM}) udev rule is now
@@ -135,7 +135,7 @@ New in 0.6.6; 2005-09-11 Andreas Jellinghaus
 * new ident schema: Lident (from linux kernel)
 * new etoken64 driver (completely untested.
   not supported by opensc.)
-* new pertosmart driver by Carlos Henrique Bauer 
+* new pertosmart driver by Carlos Henrique Bauer
 * new acr30u driver by Laurent Pinchart
 * initial driver documentation by Laurent Pinchart
 * ccid driver now supports pcmcia block based devices
@@ -159,7 +159,7 @@ New in 0.6.4; 2005-04-25; Andreas Jellinghaus:
 * solaris/ directory with files for building openct on solaris
 * improved usb code for bsd
 * improved usb code for solaris
-* require automake 1.5 
+* require automake 1.5
 * on darwin link with -Wl,-framework,CoreFoundation
 * configure code cleanup (use AC_HELP_STRING etc.)
 * implement protocol selection, improved command checking

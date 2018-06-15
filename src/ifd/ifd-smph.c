@@ -18,9 +18,9 @@
 #include <termios.h>
 #include <sys/poll.h>
 
-#define PHS_CONV_DIRECT	0
+#define PHS_CONV_DIRECT 0
 #define PHS_CONV_INDIRECT 1
-#define TIMEOUT	1000
+#define TIMEOUT 1000
 
 /* table for indirect to direct byte mode conversion */
 static const uint8_t dir_conv_table[0x100] =
@@ -61,8 +61,8 @@ static const uint8_t dir_conv_table[0x100] =
 
 enum prot_e
 {
-  prot_phoenix,		/* phoenix smartcard interface */
-  prot_smartmouse,	/* smartmouse smartcard interface */
+  prot_phoenix,         /* phoenix smartcard interface */
+  prot_smartmouse,      /* smartmouse smartcard interface */
 };
 
 typedef struct smph_priv
@@ -80,7 +80,7 @@ static int smph_recv(ifd_reader_t *, unsigned int, unsigned char *, size_t, long
 static int smph_setctrl(ifd_device_t *dev, const int  ctrl)
 {
   int tmp;
-  
+
   if (ioctl(dev->fd, TIOCMGET, &tmp) == -1)
     return -1;
   tmp &= ~(TIOCM_RTS | TIOCM_CTS | TIOCM_DTR);
@@ -92,7 +92,7 @@ static int smph_setctrl(ifd_device_t *dev, const int  ctrl)
  * Initialize the reader
  */
 static int _smph_open(ifd_reader_t *reader, const char *device_name,
-		      smph_priv_t *privd)
+                      smph_priv_t *privd)
 {
   ifd_device_params_t params;
   ifd_device_t *dev;
@@ -161,13 +161,13 @@ static int smph_change_parity(ifd_reader_t *reader, int parity)
 {
   ifd_device_t *dev = reader->device;
   ifd_device_params_t params;
-  
+
   if (dev->type != IFD_DEVICE_TYPE_SERIAL)
     return IFD_ERROR_NOT_SUPPORTED;
-  
+
   if (ifd_device_get_parameters(dev, &params) < 0)
     return -1;
-    
+
   params.serial.parity = parity;
   return ifd_device_set_parameters(dev, &params);
 }
@@ -227,7 +227,7 @@ static int smph_card_status(ifd_reader_t * reader, int slot, int *status)
       ct_error("smph: bad slot index %u", slot);
       return IFD_ERROR_INVALID_SLOT;
     }
-  
+
   tcflush(dev->fd, TCIOFLUSH);
   if (ioctl(dev->fd, TIOCMGET, &tmp) < 0)
     return -1;
@@ -241,7 +241,7 @@ static int smph_card_status(ifd_reader_t * reader, int slot, int *status)
  * Reset the card and get the ATR
  */
 static int smph_card_reset(ifd_reader_t *reader, int slot, void *atr,
-			   size_t size)
+                           size_t size)
 {
   ifd_device_t *dev = reader->device;
   smph_priv_t *privd = dev->user_data;
@@ -249,23 +249,23 @@ static int smph_card_reset(ifd_reader_t *reader, int slot, void *atr,
 
   if (slot)
     {
-      ct_error("%s: bad slot index %u", 
-	       (privd->prot == prot_phoenix) ? "phoenix" : "smartmouse", slot);
+      ct_error("%s: bad slot index %u",
+               (privd->prot == prot_phoenix) ? "phoenix" : "smartmouse", slot);
       return IFD_ERROR_INVALID_SLOT;
     }
 
   tcflush(dev->fd, TCIOFLUSH);
-  if (smph_setctrl(dev, (privd->prot == prot_phoenix) 
-		   ? TIOCM_RTS | TIOCM_CTS | TIOCM_DTR 
-		   : TIOCM_CTS | TIOCM_DTR) < 0)
+  if (smph_setctrl(dev, (privd->prot == prot_phoenix)
+                   ? TIOCM_RTS | TIOCM_CTS | TIOCM_DTR
+                   : TIOCM_CTS | TIOCM_DTR) < 0)
     return -1;
 
   /* FIXME: use ifd_serial_reset instead? */
   sleep(1);
 
-  if (smph_setctrl(dev, (privd->prot == prot_phoenix) 
-		   ? TIOCM_CTS | TIOCM_DTR :
-		   TIOCM_RTS | TIOCM_CTS | TIOCM_DTR) < 0)
+  if (smph_setctrl(dev, (privd->prot == prot_phoenix)
+                   ? TIOCM_CTS | TIOCM_DTR :
+                   TIOCM_RTS | TIOCM_CTS | TIOCM_DTR) < 0)
     return -1;
 
   /* FIXME: use ifd_serial_reset instead? */
@@ -281,18 +281,18 @@ static int smph_card_reset(ifd_reader_t *reader, int slot, void *atr,
 /*
  * Send command to IFD
  */
-static int _smph_send(ifd_device_t *dev, const unsigned char *buffer, 
-		      size_t len)
+static int _smph_send(ifd_device_t *dev, const unsigned char *buffer,
+                      size_t len)
 {
   unsigned char tmp;
   unsigned int i;
   struct pollfd pfd;
-  
+
   ifd_debug(3, "data:%s", ct_hexdump(buffer, len));
   for (i = 0; i < len; i++)
     {
       if (write(dev->fd, buffer + i, 1) < 1)
-	return -1;
+        return -1;
       tcdrain(dev->fd);
     }
 
@@ -301,35 +301,35 @@ static int _smph_send(ifd_device_t *dev, const unsigned char *buffer,
       pfd.fd = dev->fd;
       pfd.events = POLLIN;
       if (poll(&pfd, 1, dev->timeout) < 1)
-	return -1;
+        return -1;
       if (read(dev->fd, &tmp, 1) < 1)
-	return -1;
+        return -1;
       if (tmp != *(buffer + i))
-	return -1;
+        return -1;
     }
   return 0;
 }
 
 static int smph_send(ifd_reader_t * reader, unsigned int dad,
-		     const unsigned char *buffer, size_t len)
+                     const unsigned char *buffer, size_t len)
 {
   smph_priv_t *privd;
   ifd_device_t *dev = reader->device;
   uint8_t *fbuff = NULL;
   int i;
-  
+
   if (!dev)
     return -1;
   privd = (smph_priv_t *)dev->user_data;
   if (privd->mode == PHS_CONV_INDIRECT)
     {
       if (!(fbuff = (uint8_t *)malloc(len * sizeof (uint8_t))))
-	{
-	  ct_error("out of memory");
-	  return IFD_ERROR_NO_MEMORY;
-	}
+        {
+          ct_error("out of memory");
+          return IFD_ERROR_NO_MEMORY;
+        }
       for (i = 0; i < len; i++)
-	fbuff[i] = dir_conv_table[buffer[i]];
+        fbuff[i] = dir_conv_table[buffer[i]];
       i = _smph_send(dev, fbuff, len);
       free(fbuff);
       return i;
@@ -341,7 +341,7 @@ static int smph_send(ifd_reader_t * reader, unsigned int dad,
  * Receive data from IFD
  */
 static int smph_recv(ifd_reader_t * reader, unsigned int dad,
-		     unsigned char *buffer, size_t len, long timeout)
+                     unsigned char *buffer, size_t len, long timeout)
 {
   ifd_device_t *dev = reader->device;
   smph_priv_t *privd;
@@ -352,16 +352,16 @@ static int smph_recv(ifd_reader_t * reader, unsigned int dad,
     {
       n = ifd_device_recv(dev, buffer + i, 1, timeout);
       if (n == IFD_ERROR_TIMEOUT)
-	break;
+        break;
       if (n == -1)
-	return -1;
+        return -1;
     }
 
   privd = (smph_priv_t *)dev->user_data;
   if (privd->mode == PHS_CONV_INDIRECT)
     for (i = 0; i < len; i++)
       buffer[i] = dir_conv_table[buffer[i]];
-  
+
   ifd_debug(3, "data:%s", ct_hexdump(buffer, len));
   return i;
 }

@@ -31,7 +31,7 @@ AC_CONFIG_SRCDIR(src/ifd/ifdhandler.c)
 AC_CANONICAL_HOST
 
 # ct_socket_getcreds::SO_PEERCRED
-AC_GNU_SOURCE	
+AC_GNU_SOURCE
 
 AC_PROG_CC
 PKG_PROG_PKG_CONFIG
@@ -39,160 +39,160 @@ AC_C_BIGENDIAN
 
 dnl Check for some target-specific stuff
 case "${host}" in
-	*-*-hpux*)
-		CPPFLAGS="${CPPFLAGS} -D_HPUX_SOURCE -D_XOPEN_SOURCE_EXTENDED"
-	;;
-	*-*-solaris*)
-		CPPFLAGS="${CPPFLAGS} -I/usr/local/include"
-		LDFLAGS="${LDFLAGS} -L/usr/local/lib -R/usr/local/lib"
-		need_dash_r="1"
-	;;
-	*-*-sunos4*)
-		CPPFLAGS="${CPPFLAGS} -DSUNOS4"
-	;;
-	*-*-aix*)
-		CPPFLAGS="${CPPFLAGS} -I/usr/local/include"
-		LDFLAGS="${LDFLAGS} -L/usr/local/lib"
-		if test "${LD}" != "gcc" -a -z "${blibpath}"; then
-			blibpath="/usr/lib:/lib:/usr/local/lib"
-		fi
-	;;
-	*-*-osf*)
-		CPPFLAGS="${CPPFLAGS} -D_POSIX_PII_SOCKET"
-	;;
-	*-*-darwin*)
-		LIBS="${LIBS} -Wl,-framework,CoreFoundation"
-		if test "${GCC}" = "yes"; then
-			CFLAGS="${CFLAGS} -no-cpp-precomp"
-		fi
-	;;
+        *-*-hpux*)
+                CPPFLAGS="${CPPFLAGS} -D_HPUX_SOURCE -D_XOPEN_SOURCE_EXTENDED"
+        ;;
+        *-*-solaris*)
+                CPPFLAGS="${CPPFLAGS} -I/usr/local/include"
+                LDFLAGS="${LDFLAGS} -L/usr/local/lib -R/usr/local/lib"
+                need_dash_r="1"
+        ;;
+        *-*-sunos4*)
+                CPPFLAGS="${CPPFLAGS} -DSUNOS4"
+        ;;
+        *-*-aix*)
+                CPPFLAGS="${CPPFLAGS} -I/usr/local/include"
+                LDFLAGS="${LDFLAGS} -L/usr/local/lib"
+                if test "${LD}" != "gcc" -a -z "${blibpath}"; then
+                        blibpath="/usr/lib:/lib:/usr/local/lib"
+                fi
+        ;;
+        *-*-osf*)
+                CPPFLAGS="${CPPFLAGS} -D_POSIX_PII_SOCKET"
+        ;;
+        *-*-darwin*)
+                LIBS="${LIBS} -Wl,-framework,CoreFoundation"
+                if test "${GCC}" = "yes"; then
+                        CFLAGS="${CFLAGS} -no-cpp-precomp"
+                fi
+        ;;
 esac
 
 AC_ARG_ENABLE(
-	[strict],
-	[AS_HELP_STRING([--enable-strict],[enable strict compile mode @<:@disabled@:>@])],
-	,
-	[enable_strict="no"]
+        [strict],
+        [AS_HELP_STRING([--enable-strict],[enable strict compile mode @<:@disabled@:>@])],
+        ,
+        [enable_strict="no"]
 )
 
 AC_ARG_ENABLE(
-	[pedantic],
-	[AS_HELP_STRING([--enable-pedantic],[enable pedantic compile mode @<:@disabled@:>@])],
-	,
-	[enable_pedantic="no"]
+        [pedantic],
+        [AS_HELP_STRING([--enable-pedantic],[enable pedantic compile mode @<:@disabled@:>@])],
+        ,
+        [enable_pedantic="no"]
 )
 
 AC_ARG_ENABLE(
-	[api-doc],
-	[AS_HELP_STRING([--enable-api-doc],[enable generation and installation of api documents @<:@disabled@:>@])],
-	,
-	[enable_api_doc="no"]
+        [api-doc],
+        [AS_HELP_STRING([--enable-api-doc],[enable generation and installation of api documents @<:@disabled@:>@])],
+        ,
+        [enable_api_doc="no"]
 )
 
 AC_ARG_ENABLE(
-	[pcsc],
-	[AS_HELP_STRING([--enable-pcsc],[enable pcsc support @<:@disabled@:>@])],
-	,
-	[enable_pcsc="no"]
+        [pcsc],
+        [AS_HELP_STRING([--enable-pcsc],[enable pcsc support @<:@disabled@:>@])],
+        ,
+        [enable_pcsc="no"]
 )
 
 AC_ARG_ENABLE(
-	[usb],
-	[AS_HELP_STRING([--enable-usb],[enable usb support @<:@disabled@:>@])],
-	,
-	[enable_usb="no"]
+        [usb],
+        [AS_HELP_STRING([--enable-usb],[enable usb support @<:@disabled@:>@])],
+        ,
+        [enable_usb="no"]
 )
 
 AC_ARG_ENABLE(
-	[debug],
-	[AS_HELP_STRING([--enable-debug],[enable debug messages @<:@disabled@:>@])],
-	[test "${enableval}" = "yes" && AC_DEFINE([DEBUG], [1], [Enable debug messages.])]
+        [debug],
+        [AS_HELP_STRING([--enable-debug],[enable debug messages @<:@disabled@:>@])],
+        [test "${enableval}" = "yes" && AC_DEFINE([DEBUG], [1], [Enable debug messages.])]
 )
 
 AC_ARG_ENABLE(
-	[sunray],
-	[AS_HELP_STRING([--enable-sunray],[enable sunray support @<:@disabled@:>@])],
-	[test "${enableval}" = "yes" && AC_DEFINE([sunray], [1], [Enable sunray support.])]
+        [sunray],
+        [AS_HELP_STRING([--enable-sunray],[enable sunray support @<:@disabled@:>@])],
+        [test "${enableval}" = "yes" && AC_DEFINE([sunray], [1], [Enable sunray support.])]
 )
 
 AC_ARG_ENABLE(
-	[sunrayclient],
-	[AS_HELP_STRING([--enable-sunrayclient],[enable sunray client support @<:@disabled@:>@])],
-	[test "${enableval}" = "yes" && AC_DEFINE(sunrayclient, 1, [Enable sunray client support.])]
+        [sunrayclient],
+        [AS_HELP_STRING([--enable-sunrayclient],[enable sunray client support @<:@disabled@:>@])],
+        [test "${enableval}" = "yes" && AC_DEFINE(sunrayclient, 1, [Enable sunray client support.])]
 )
 
 AC_ARG_ENABLE(
-	[non-privileged],
-	[AS_HELP_STRING([--enable-non-privileged],[enable non privileged mode @<:@disabled@:>@])],
-	[test "${enableval}" = "no" && ENABLE_NON_PRIVILEGED="#"],
-	[ENABLE_NON_PRIVILEGED="#"]
+        [non-privileged],
+        [AS_HELP_STRING([--enable-non-privileged],[enable non privileged mode @<:@disabled@:>@])],
+        [test "${enableval}" = "no" && ENABLE_NON_PRIVILEGED="#"],
+        [ENABLE_NON_PRIVILEGED="#"]
 )
 
 AC_ARG_WITH(
-	[bundle],
+        [bundle],
         [AS_HELP_STRING([--with-bundle=PATH],[install bundle file for pcsc-lite to PATH @<:@not installed@:>@])],
         [
-		if test "${withval}" = "yes"; then
-			bundledir="\$(libdir)"
-		else
-			bundledir="${withval}"
-		fi
-	],
-	[bundledir=""]
+                if test "${withval}" = "yes"; then
+                        bundledir="\$(libdir)"
+                else
+                        bundledir="${withval}"
+                fi
+        ],
+        [bundledir=""]
 )
 
 AC_ARG_WITH(
-	[udev],
+        [udev],
         [AS_HELP_STRING([--with-udev=PATH],[install udev files into PATH @<:@not installed@:>@])],
         [
-		if test "${withval}" = "yes"; then
-			udevdir="\$(libdir)/udev"
-		else
-			udevdir="${withval}"
-		fi
-	],
-	[udevdir=""]
+                if test "${withval}" = "yes"; then
+                        udevdir="\$(libdir)/udev"
+                else
+                        udevdir="${withval}"
+                fi
+        ],
+        [udevdir=""]
 )
 
 AC_ARG_WITH(
-	[hotplug],
+        [hotplug],
         [AS_HELP_STRING([--with-hotplug=PATH],[install hotplug files into PATH @<:@not installed@:>@])],
         [
-		if test "${withval}" = "yes"; then
-			hotplugdir="\$(sysconfdir)/hotplug/usb"
-		else
-			hotplugdir="${withval}"
-		fi
-	],
-	[hotplugdir=""]
+                if test "${withval}" = "yes"; then
+                        hotplugdir="\$(sysconfdir)/hotplug/usb"
+                else
+                        hotplugdir="${withval}"
+                fi
+        ],
+        [hotplugdir=""]
 )
 
 AC_ARG_WITH(
-	[ifddir],
-	[AS_HELP_STRING([--with-ifddir],[ifd directory @<:@/usr/lib/ifd@:>@])],
-	[ifddir="${withval}"],
-	[ifddir="\${libdir}/ifd"]
+        [ifddir],
+        [AS_HELP_STRING([--with-ifddir],[ifd directory @<:@/usr/lib/ifd@:>@])],
+        [ifddir="${withval}"],
+        [ifddir="\${libdir}/ifd"]
 )
 
 AC_ARG_WITH(
-	[apidocdir],
-	[AS_HELP_STRING([--with-apidocdir],[put API documents at this directory @<:@HTMLDIR/api@:>@])],
-	[apidocdir="${with_apidocdir}"],
-	[apidocdir="\$(htmldir)/api"]
+        [apidocdir],
+        [AS_HELP_STRING([--with-apidocdir],[put API documents at this directory @<:@HTMLDIR/api@:>@])],
+        [apidocdir="${with_apidocdir}"],
+        [apidocdir="\$(htmldir)/api"]
 )
 
 AC_ARG_WITH(
-	[daemon-user],
-	[AS_HELP_STRING([--with-daemon-user=USER],[use this user for daemon @<:@openctd@:>@])],
-	[daemon_user="${withval}"],
-	[daemon_user="openctd"]
+        [daemon-user],
+        [AS_HELP_STRING([--with-daemon-user=USER],[use this user for daemon @<:@openctd@:>@])],
+        [daemon_user="${withval}"],
+        [daemon_user="openctd"]
 )
 
 AC_ARG_WITH(
-	[daemon-groups],
-	[AS_HELP_STRING([--with-daemon-groups=GROUPS],[use these comma separated group list for daemon @<:@usb@:>@])],
-	[daemon_groups="${withval}"],
-	[daemon_groups="usb"]
+        [daemon-groups],
+        [AS_HELP_STRING([--with-daemon-groups=GROUPS],[use these comma separated group list for daemon @<:@usb@:>@])],
+        [daemon_groups="${withval}"],
+        [daemon_groups="usb"]
 )
 
 dnl Checks for programs.
@@ -207,22 +207,22 @@ AM_PROG_CC_C_O
 
 dnl Add libtool support.
 ifdef(
-	[LT_INIT],
-	[
-		LT_INIT
-	],
-	[
-		AC_PROG_LIBTOOL
-	]
+        [LT_INIT],
+        [
+                LT_INIT
+        ],
+        [
+                AC_PROG_LIBTOOL
+        ]
 )
 
 dnl Checks for header files.
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS([ \
-	errno.h fcntl.h malloc.h stdlib.h string.h \
-	strings.h sys/time.h unistd.h getopt.h \
-	dlfcn.h sys/poll.h
+        errno.h fcntl.h malloc.h stdlib.h string.h \
+        strings.h sys/time.h unistd.h getopt.h \
+        dlfcn.h sys/poll.h
 ])
 
 AC_ARG_VAR([DOXYGEN], [doxygen utility])
@@ -246,102 +246,102 @@ AC_C_INLINE
 
 dnl See if socket() is found from libsocket
 AC_CHECK_LIB(
-	[socket],
-	[socket],
-	[
-		LIBS="${LIBS} -lsocket"
-		AC_CHECK_LIB(
-			[resolv],
-			[res_query],
-			[LIBS="${LIBS} -lresolv"]
-		)
-	]
+        [socket],
+        [socket],
+        [
+                LIBS="${LIBS} -lsocket"
+                AC_CHECK_LIB(
+                        [resolv],
+                        [res_query],
+                        [LIBS="${LIBS} -lresolv"]
+                )
+        ]
 )
 
 AC_ARG_VAR([LTLIB_CFLAGS], [C compiler flags for libltdl])
 AC_ARG_VAR([LTLIB_LIBS], [linker flags for libltdl])
 if test -z "${LTLIB_LIBS}"; then
-	AC_CHECK_LIB(
-		[ltdl],
-		[lt_dlopen],
-		[LTLIB_LIBS="-lltdl"],
-		[AC_MSG_ERROR([ltdl not found, please install libltdl and/or libtool])]
-	)
+        AC_CHECK_LIB(
+                [ltdl],
+                [lt_dlopen],
+                [LTLIB_LIBS="-lltdl"],
+                [AC_MSG_ERROR([ltdl not found, please install libltdl and/or libtool])]
+        )
 fi
 saved_CFLAGS="${CFLAGS}"
 CFLAGS="${CFLAGS} ${LTLIB_CFLAGS}"
 AC_CHECK_HEADER(
-	[ltdl.h],
-	,
-	[AC_MSG_ERROR([ltdl.h not found, please install libltdl and/or libtool])]
+        [ltdl.h],
+        ,
+        [AC_MSG_ERROR([ltdl.h not found, please install libltdl and/or libtool])]
 )
 CFLAGS="${saved_CFLAGS}"
 
 AC_MSG_CHECKING([struct sockaddr_storage::ss_family])
 AC_COMPILE_IFELSE(
-	[AC_LANG_PROGRAM(
-		[[
+        [AC_LANG_PROGRAM(
+                [[
 #include <sys/types.h>
 #include <sys/socket.h>
-		]],
-		[[
+                ]],
+                [[
 struct sockaddr_storage s;
 s.ss_family = 1;
-		]]
-	)],
-	[AC_MSG_RESULT([ok])],
-	[AC_TRY_COMPILE(
-		[
+                ]]
+        )],
+        [AC_MSG_RESULT([ok])],
+        [AC_TRY_COMPILE(
+                [
 #include <sys/types.h>
 #include <sys/socket.h>
-		],
-		[
+                ],
+                [
 struct sockaddr_storage s;
 s.__ss_family = 1;
-		],
-		[
-			AC_MSG_RESULT([hack])
-			AC_DEFINE_UNQUOTED([ss_family], [__ss_family], [sockaddr_storage.ss_family wrapper])
-		],
-		[AC_MSG_ERROR([Invalid struct sockaddr_storage])]
-	)]
+                ],
+                [
+                        AC_MSG_RESULT([hack])
+                        AC_DEFINE_UNQUOTED([ss_family], [__ss_family], [sockaddr_storage.ss_family wrapper])
+                ],
+                [AC_MSG_ERROR([Invalid struct sockaddr_storage])]
+        )]
 )
 
 dnl see if poll() is found from libpoll
 AC_CHECK_LIB([poll], [poll], [LIBS="$LIBS -lpoll"])
 
 if test "${enable_usb}" = "yes"; then
-	PKG_CHECK_MODULES(
-		[LIBUSB],
-		[libusb],
-		[AC_DEFINE([ENABLE_LIBUSB], [1], [Have libusb libraries and header files])],
-		[AC_MSG_ERROR([Cannot detect libusb])]
-	)
+        PKG_CHECK_MODULES(
+                [LIBUSB],
+                [libusb],
+                [AC_DEFINE([ENABLE_LIBUSB], [1], [Have libusb libraries and header files])],
+                [AC_MSG_ERROR([Cannot detect libusb])]
+        )
 fi
 
 if test "${enable_pcsc}" = "yes"; then
-	case "$host" in
-		*-*-darwin*)
-			if test -z "$PCSC_LIBS" -a -z "$PCSC_LIBS"; then
-				PCSC_MSG=yes
-				PCSC_CFLAGS=""
-				PCSC_LIBS="-Wl,-framework,PCSC"
-			fi
-		;;
-		*)
-			PKG_CHECK_MODULES(
-				[PCSC],
-				[libpcsclite],
-				,
-				[AC_MSG_ERROR([Cannot locate pcsc-lite])]
-			)
-		;;
-	esac
+        case "$host" in
+                *-*-darwin*)
+                        if test -z "$PCSC_LIBS" -a -z "$PCSC_LIBS"; then
+                                PCSC_MSG=yes
+                                PCSC_CFLAGS=""
+                                PCSC_LIBS="-Wl,-framework,PCSC"
+                        fi
+                ;;
+                *)
+                        PKG_CHECK_MODULES(
+                                [PCSC],
+                                [libpcsclite],
+                                ,
+                                [AC_MSG_ERROR([Cannot locate pcsc-lite])]
+                        )
+                ;;
+        esac
 fi
 
 if test "${enable_usb}" = "yes"; then
-	OPTIONAL_LIBUSB_CFLAGS="${LIBUSB_CFLAGS}"
-	OPTIONAL_LIBUSB_LIBS="${LIBUSB_LIBS}"
+        OPTIONAL_LIBUSB_CFLAGS="${LIBUSB_CFLAGS}"
+        OPTIONAL_LIBUSB_LIBS="${LIBUSB_LIBS}"
 fi
 
 OPENCT_SOCKET_PATH='${localstatedir}/run/openct'
@@ -350,19 +350,19 @@ CPPFLAGS_OPENCT_CONF_PATH='-DOPENCT_CONF_PATH="\"$(sysconfdir)/openct.conf\""'
 CPPFLAGS_OPENCT_MODULES_PATH='-DOPENCT_MODULES_PATH="\"$(ifddir)\""'
 CPPFLAGS_OPENCT_IFDHANDLER_PATH='-DOPENCT_IFDHANDLER_PATH="\"$(sbindir)/ifdhandler\""'
 CPPFLAGS="${CPPFLAGS} \
-	${CPPFLAGS_OPENCT_CONF_PATH} \
-	${CPPFLAGS_OPENCT_SOCKET_PATH} \
-	${CPPFLAGS_OPENCT_MODULES_PATH} \
-	${CPPFLAGS_OPENCT_IFDHANDLER_PATH}"
+        ${CPPFLAGS_OPENCT_CONF_PATH} \
+        ${CPPFLAGS_OPENCT_SOCKET_PATH} \
+        ${CPPFLAGS_OPENCT_MODULES_PATH} \
+        ${CPPFLAGS_OPENCT_IFDHANDLER_PATH}"
 
 AC_CREATE_STDINT_H([src/include/openct/types.h])
 
 if test "${enable_pedantic}" = "yes"; then
-	enable_strict="yes";
-	CFLAGS="${CFLAGS} -pedantic"
+        enable_strict="yes";
+        CFLAGS="${CFLAGS} -pedantic"
 fi
 if test "${enable_strict}" = "yes"; then
-	CFLAGS="${CFLAGS} -Wall -Wextra"
+        CFLAGS="${CFLAGS} -Wall -Wextra"
 fi
 
 pkgconfigdir="\$(libdir)/pkgconfig"
@@ -396,21 +396,21 @@ AM_CONDITIONAL([ENABLE_HOTPLUG], [test -n "${hotplugdir}"])
 AM_CONDITIONAL([ENABLE_PCSC], [test "${enable_pcsc}" = "yes"])
 
 AC_CONFIG_FILES([
-	Makefile
-	doc/Makefile
-	doc/doxygen.conf
-	etc/Makefile
-	macos/Makefile
-	src/Makefile
-	src/ct/Makefile
-	src/ct/libopenct.pc
-	src/ctapi/Makefile
-	src/ifd/Makefile
-	src/include/Makefile
-	src/include/openct/Makefile
-	src/pcsc/Makefile
-	src/tools/Makefile
-	src/tools/openct-tool.1
+        Makefile
+        doc/Makefile
+        doc/doxygen.conf
+        etc/Makefile
+        macos/Makefile
+        src/Makefile
+        src/ct/Makefile
+        src/ct/libopenct.pc
+        src/ctapi/Makefile
+        src/ifd/Makefile
+        src/include/Makefile
+        src/include/openct/Makefile
+        src/pcsc/Makefile
+        src/tools/Makefile
+        src/tools/openct-tool.1
 ])
 AC_OUTPUT
 

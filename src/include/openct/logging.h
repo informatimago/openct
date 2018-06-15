@@ -11,12 +11,12 @@
 extern "C" {
 #endif
 
-extern void		ct_log_destination(const char *);
+extern void             ct_log_destination(const char *);
 
-extern void		ct_error(const char *, ...);
-extern void		ct_debug(const char *, ...);
+extern void             ct_error(const char *, ...);
+extern void             ct_debug(const char *, ...);
 
-extern const char *	ct_hexdump(const void *, size_t);
+extern const char *     ct_hexdump(const void *, size_t);
 
 #ifdef __cplusplus
 }

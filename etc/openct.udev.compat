@@ -4,5 +4,5 @@
 # DEVICE. so we need to know the name of the device created by udev in
 # /dev/bus/usb.
 SUBSYSTEM=="usb", ACTION=="add", ENV{DEVTYPE}=="usb_device", \
-	NAME="bus/usb/$env{BUSNUM}/$env{DEVNUM}", MODE="0644"
+        NAME="bus/usb/$env{BUSNUM}/$env{DEVNUM}", MODE="0644"
 

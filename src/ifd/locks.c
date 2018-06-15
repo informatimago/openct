@@ -16,12 +16,12 @@
 #include "ifdhandler.h"
 
 typedef struct ct_lock {
-	struct ct_lock *next;
-	unsigned int slot;
-	uid_t uid;
-	ct_lock_handle handle;
-	ct_socket_t *owner;
-	int exclusive;
+        struct ct_lock *next;
+        unsigned int slot;
+        uid_t uid;
+        ct_lock_handle handle;
+        ct_socket_t *owner;
+        int exclusive;
 } ct_lock_t;
 
 static ct_lock_t *locks;
@@ -31,35 +31,35 @@ static unsigned int lock_handle = 0;
  * Try to establish a lock
  */
 int ifdhandler_lock(ct_socket_t * sock, int slot, int type,
-		    ct_lock_handle * res)
+                    ct_lock_handle * res)
 {
-	ct_lock_t *l;
-	int rc;
+        ct_lock_t *l;
+        int rc;
 
-	/* See if we have a locking conflict */
-	if ((rc = ifdhandler_check_lock(sock, slot, type)) < 0)
-		return rc;
+        /* See if we have a locking conflict */
+        if ((rc = ifdhandler_check_lock(sock, slot, type)) < 0)
+                return rc;
 
-	/* No conflict - grant lock and record this fact */
-	l = (ct_lock_t *) calloc(1, sizeof(*l));
-	if (!l) {
-		ct_error("out of memory");
-		return IFD_ERROR_NO_MEMORY;
-	}
-	l->exclusive = (type == IFD_LOCK_EXCLUSIVE);
-	l->uid = sock->client_uid;
-	l->handle = lock_handle++;
-	l->owner = sock;
-	l->slot = slot;
+        /* No conflict - grant lock and record this fact */
+        l = (ct_lock_t *) calloc(1, sizeof(*l));
+        if (!l) {
+                ct_error("out of memory");
+                return IFD_ERROR_NO_MEMORY;
+        }
+        l->exclusive = (type == IFD_LOCK_EXCLUSIVE);
+        l->uid = sock->client_uid;
+        l->handle = lock_handle++;
+        l->owner = sock;
+        l->slot = slot;
 
-	l->next = locks;
-	locks = l;
+        l->next = locks;
+        locks = l;
 
-	ifd_debug(1, "granted %s lock %u for slot %u by uid=%u",
-		  l->exclusive ? "excl" : "shared", l->handle, l->slot, l->uid);
+        ifd_debug(1, "granted %s lock %u for slot %u by uid=%u",
+                  l->exclusive ? "excl" : "shared", l->handle, l->slot, l->uid);
 
-	*res = l->handle;
-	return 0;
+        *res = l->handle;
+        return 0;
 }
 
 /*
@@ -67,21 +67,21 @@ int ifdhandler_lock(ct_socket_t * sock, int slot, int type,
  */
 int ifdhandler_check_lock(ct_socket_t * sock, int slot, int type)
 {
-	ct_lock_t *l;
+        ct_lock_t *l;
 
-	for (l = locks; l; l = l->next) {
-		if (l->slot != slot)
-			continue;
+        for (l = locks; l; l = l->next) {
+                if (l->slot != slot)
+                        continue;
 
-		if (l->owner == sock)
-			continue;
+                if (l->owner == sock)
+                        continue;
 
-		if (l->exclusive
-		    || type == IFD_LOCK_EXCLUSIVE || l->uid != sock->client_uid)
-			return IFD_ERROR_LOCKED;
-	}
+                if (l->exclusive
+                    || type == IFD_LOCK_EXCLUSIVE || l->uid != sock->client_uid)
+                        return IFD_ERROR_LOCKED;
+        }
 
-	return 0;
+        return 0;
 }
 
 /*
@@ -89,22 +89,22 @@ int ifdhandler_check_lock(ct_socket_t * sock, int slot, int type)
  */
 int ifdhandler_unlock(ct_socket_t * sock, int slot, ct_lock_handle handle)
 {
-	ct_lock_t *l, **lp;
+        ct_lock_t *l, **lp;
 
-	for (lp = &locks; (l = *lp) != NULL; lp = &l->next) {
-		if (l->owner == sock && l->slot == slot && l->handle == handle) {
-			ifd_debug(1,
-				  "released %s lock %u for slot %u by uid=%u",
-				  l->exclusive ? "excl" : "shared",
-				  l->handle, l->slot, l->uid);
+        for (lp = &locks; (l = *lp) != NULL; lp = &l->next) {
+                if (l->owner == sock && l->slot == slot && l->handle == handle) {
+                        ifd_debug(1,
+                                  "released %s lock %u for slot %u by uid=%u",
+                                  l->exclusive ? "excl" : "shared",
+                                  l->handle, l->slot, l->uid);
 
-			*lp = l->next;
-			free(l);
-			return 0;
-		}
-	}
+                        *lp = l->next;
+                        free(l);
+                        return 0;
+                }
+        }
 
-	return IFD_ERROR_NOLOCK;
+        return IFD_ERROR_NOLOCK;
 }
 
 /*
@@ -113,19 +113,19 @@ int ifdhandler_unlock(ct_socket_t * sock, int slot, ct_lock_handle handle)
  */
 void ifdhandler_unlock_all(ct_socket_t * sock)
 {
-	ct_lock_t *l, **lp;
+        ct_lock_t *l, **lp;
 
-	lp = &locks;
-	while ((l = *lp) != NULL) {
-		if (l->owner == sock) {
-			ifd_debug(1,
-				  "released %s lock %u for slot %u by uid=%u",
-				  l->exclusive ? "excl" : "shared",
-				  l->handle, l->slot, l->uid);
-			*lp = l->next;
-			free(l);
-		} else {
-			lp = &l->next;
-		}
-	}
+        lp = &locks;
+        while ((l = *lp) != NULL) {
+                if (l->owner == sock) {
+                        ifd_debug(1,
+                                  "released %s lock %u for slot %u by uid=%u",
+                                  l->exclusive ? "excl" : "shared",
+                                  l->handle, l->slot, l->uid);
+                        *lp = l->next;
+                        free(l);
+                } else {
+                        lp = &l->next;
+                }
+        }
 }

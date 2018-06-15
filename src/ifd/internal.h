@@ -23,87 +23,87 @@
 #include <openct/buffer.h>
 
 struct ifd_device {
-	char *name;
-	int type;
-	long timeout;
+        char *name;
+        int type;
+        long timeout;
 
-	unsigned int hotplug:1;
+        unsigned int hotplug:1;
 
-	int fd;
-	void *dev;		/* use instead of fd, if no fd available for implementation */
+        int fd;
+        void *dev;              /* use instead of fd, if no fd available for implementation */
 
-	ifd_device_params_t settings;
-	struct ifd_device_ops *ops;
+        ifd_device_params_t settings;
+        struct ifd_device_ops *ops;
 
-	void *user_data;
+        void *user_data;
 
-	/* per-device data may follow */
+        /* per-device data may follow */
 
-	unsigned int etu;	/* XXX: unnecessary? */
+        unsigned int etu;       /* XXX: unnecessary? */
 };
 
 struct ifd_device_ops {
-	/* Reset device */
-	int (*reset) (ifd_device_t *);
+        /* Reset device */
+        int (*reset) (ifd_device_t *);
 
-	int (*set_params) (ifd_device_t *, const ifd_device_params_t *);
-	int (*get_params) (ifd_device_t *, ifd_device_params_t *);
+        int (*set_params) (ifd_device_t *, const ifd_device_params_t *);
+        int (*get_params) (ifd_device_t *, ifd_device_params_t *);
 
-	/* Flush any pending input */
-	void (*flush) (ifd_device_t *);
-	void (*send_break) (ifd_device_t *, unsigned int);
+        /* Flush any pending input */
+        void (*flush) (ifd_device_t *);
+        void (*send_break) (ifd_device_t *, unsigned int);
 
-	/*
-	 * Send/receive data. Some devices such as USB will support
-	 * the transceive command, others such as serial devices will
-	 * need to use send/recv
-	 */
-	int (*transceive) (ifd_device_t *,
-			   const void *, size_t, void *, size_t, long);
-	int (*send) (ifd_device_t *, const unsigned char *, size_t);
-	int (*recv) (ifd_device_t *, unsigned char *, size_t, long);
-	int (*control) (ifd_device_t *, void *, size_t);
+        /*
+         * Send/receive data. Some devices such as USB will support
+         * the transceive command, others such as serial devices will
+         * need to use send/recv
+         */
+        int (*transceive) (ifd_device_t *,
+                           const void *, size_t, void *, size_t, long);
+        int (*send) (ifd_device_t *, const unsigned char *, size_t);
+        int (*recv) (ifd_device_t *, unsigned char *, size_t, long);
+        int (*control) (ifd_device_t *, void *, size_t);
 
-	void (*close) (ifd_device_t *);
+        void (*close) (ifd_device_t *);
 
-	int (*get_eventfd) (ifd_device_t *, short *events);
+        int (*get_eventfd) (ifd_device_t *, short *events);
 
-	/* Poll for device presence. This function is called
-	 * prior to the poll call (with revents == 0), in this
-	 * case poll_presence is supposed to set up the poll
-	 * structure.
-	 * Then, it is called after poll() returns - in this case
-	 * it should check the contents of pollfd to find out
-	 * whether the device got removed.
-	 *
-	 * This is pretty much tailored for USB support, so
-	 * the addition of PCMCIA devices may cause this
-	 * to change.
-	 */
-	int (*poll_presence) (ifd_device_t *, struct pollfd *);
+        /* Poll for device presence. This function is called
+         * prior to the poll call (with revents == 0), in this
+         * case poll_presence is supposed to set up the poll
+         * structure.
+         * Then, it is called after poll() returns - in this case
+         * it should check the contents of pollfd to find out
+         * whether the device got removed.
+         *
+         * This is pretty much tailored for USB support, so
+         * the addition of PCMCIA devices may cause this
+         * to change.
+         */
+        int (*poll_presence) (ifd_device_t *, struct pollfd *);
 };
 
 struct ifd_protocol_ops {
-	int id;
-	const char *name;
-	size_t size;
-	int (*init) (ifd_protocol_t *);
-	void (*release) (ifd_protocol_t *);
-	int (*set_param) (ifd_protocol_t *, int, long);
-	int (*get_param) (ifd_protocol_t *, int, long *);
-	int (*resynchronize) (ifd_protocol_t *, int dad);
-	int (*transceive) (ifd_protocol_t *, int dad,
-			   const void *, size_t, void *, size_t);
-	int (*sync_read) (ifd_protocol_t *, int,
-			  unsigned short, unsigned char *, size_t);
-	int (*sync_write) (ifd_protocol_t *, int,
-			   unsigned short, const unsigned char *, size_t);
+        int id;
+        const char *name;
+        size_t size;
+        int (*init) (ifd_protocol_t *);
+        void (*release) (ifd_protocol_t *);
+        int (*set_param) (ifd_protocol_t *, int, long);
+        int (*get_param) (ifd_protocol_t *, int, long *);
+        int (*resynchronize) (ifd_protocol_t *, int dad);
+        int (*transceive) (ifd_protocol_t *, int dad,
+                           const void *, size_t, void *, size_t);
+        int (*sync_read) (ifd_protocol_t *, int,
+                          unsigned short, unsigned char *, size_t);
+        int (*sync_write) (ifd_protocol_t *, int,
+                           unsigned short, const unsigned char *, size_t);
 };
 
 struct ifd_protocol {
-	ifd_reader_t *reader;
-	unsigned int dad;
-	struct ifd_protocol_ops *ops;
+        ifd_reader_t *reader;
+        unsigned int dad;
+        struct ifd_protocol_ops *ops;
 };
 
 extern struct ifd_protocol_ops ifd_protocol_t1;
@@ -157,7 +157,7 @@ extern ifd_device_t *ifd_open_remote(const char *);
 extern ifd_device_t *ifd_open_serial(const char *);
 extern ifd_device_t *ifd_open_usb(const char *);
 extern ifd_device_t *ifd_device_new(const char *,
-				    struct ifd_device_ops *, size_t);
+                                    struct ifd_device_ops *, size_t);
 extern void ifd_device_free(ifd_device_t *);
 
 /* checksum.c */
@@ -168,21 +168,21 @@ extern unsigned int csum_crc_compute(const uint8_t *, size_t, unsigned char *);
 extern int ifd_sysdep_usb_poll_presence(ifd_device_t *, struct pollfd *);
 extern int ifd_sysdep_usb_get_eventfd(ifd_device_t *, short *events);
 extern int ifd_sysdep_usb_control(ifd_device_t *,
-				  unsigned int,
-				  unsigned int,
-				  unsigned int,
-				  unsigned int, void *, size_t, long);
+                                  unsigned int,
+                                  unsigned int,
+                                  unsigned int,
+                                  unsigned int, void *, size_t, long);
 extern int ifd_sysdep_usb_bulk(ifd_device_t *, int, void *, size_t, long);
 extern int ifd_sysdep_usb_set_configuration(ifd_device_t *, int);
 extern int ifd_sysdep_usb_set_interface(ifd_device_t *, int, int);
 extern int ifd_sysdep_usb_claim_interface(ifd_device_t *, int);
 extern int ifd_sysdep_usb_release_interface(ifd_device_t *, int);
 extern int ifd_sysdep_usb_begin_capture(ifd_device_t *, int, int, size_t,
-					ifd_usb_capture_t **);
+                                        ifd_usb_capture_t **);
 extern int ifd_sysdep_usb_capture_event(ifd_device_t *, ifd_usb_capture_t *,
-			   void *, size_t);
+                           void *, size_t);
 extern int ifd_sysdep_usb_capture(ifd_device_t *, ifd_usb_capture_t *, void *,
-				  size_t, long);
+                                  size_t, long);
 extern int ifd_sysdep_usb_end_capture(ifd_device_t *, ifd_usb_capture_t * cap);
 extern int ifd_sysdep_usb_open(const char *device);
 extern int ifd_sysdep_usb_reset(ifd_device_t *);
@@ -206,4 +206,4 @@ extern unsigned int ifd_protocols_list(const char **, unsigned int);
 /* proto-t1.c */
 extern int t1_negotiate_ifsd(ifd_protocol_t *, unsigned int, int);
 
-#endif				/* IFD_INTERNAL_H */
+#endif                          /* IFD_INTERNAL_H */

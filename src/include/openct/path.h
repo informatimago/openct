@@ -16,4 +16,4 @@ extern int ct_format_path(char *path, const size_t pathlen, const char *file);
 #ifdef __cplusplus
 }
 #endif
-#endif				/* OPENCT_PATH_H */
+#endif                          /* OPENCT_PATH_H */

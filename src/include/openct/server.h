@@ -13,9 +13,9 @@ extern "C" {
 
 #include <sys/poll.h>
 
-extern void	ct_mainloop_add_socket(ct_socket_t *);
-extern void	ct_mainloop(void);
-extern void	ct_mainloop_leave(void);
+extern void     ct_mainloop_add_socket(ct_socket_t *);
+extern void     ct_mainloop(void);
+extern void     ct_mainloop_leave(void);
 
 #ifdef __cplusplus
 }
