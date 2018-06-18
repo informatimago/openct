@@ -22,6 +22,8 @@ ifd_device_t *ifd_device_open(const char *name)
                 return ifd_open_serial(name + 7);
         if (!strncmp(name, "usb:", 4))
                 return ifd_open_usb(name + 4);
+        if (!strncmp(name, "extern:", 7))
+                return ifd_open_extern(name + 7);
         if (!strncmp(name, "remote:", 7))
                 return ifd_open_remote(name + 7);
         if (!strncmp(name, "pcmcia:", 7))

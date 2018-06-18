@@ -31,6 +31,7 @@ int ifd_init(void)
         ifd_etoken_register();
         ifd_etoken64_register();
         ifd_eutron_register();
+        ifd_extern_register();
         ifd_gempc_register();
         ifd_ikey2k_register();
         ifd_ikey3k_register();

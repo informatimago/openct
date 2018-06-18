@@ -13,14 +13,14 @@ libifd_la_SOURCES = \
 	ifd-etoken.c ifd-etoken64.c ifd-eutron.c ifd-gempc.c ifd-ikey2k.c \
 	ifd-ikey3k.c ifd-kaan.c ifd-pertosmart1030.c ifd-pertosmart1038.c \
 	ifd-smartboard.c ifd-smph.c ifd-starkey.c ifd-towitoko.c cardman.h \
-	ifd-cyberjack.c ifd-rutoken.c ifd-epass3k.c \
+	ifd-cyberjack.c ifd-rutoken.c ifd-epass3k.c ifd-extern.c \
 	\
 	proto-gbp.c proto-sync.c proto-t0.c proto-t1.c \
 	proto-trans.c proto-escape.c \
 	\
 	sys-sunray.c sys-solaris.c sys-bsd.c sys-linux.c sys-null.c sys-osx.c \
 	\
-	ria.c
+	extern.c ria.c
 # new driver not working yet: ifd-wbeiuu.c
 libifd_la_LIBADD = $(top_builddir)/src/ct/libopenct.la $(LTLIB_LIBS) $(OPTIONAL_LIBUSB_LIBS)
 libifd_la_CFLAGS = $(AM_CFLAGS) \

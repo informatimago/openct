@@ -1,7 +1,14 @@
 #!/bin/sh
 
 set -e
+
 set -x
+autoreconf --version
+autoconf --version
+automake --version
+libtool --version
+pkg-config --version
+
 if test -f Makefile; then
   make distclean
 fi
