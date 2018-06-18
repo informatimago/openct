@@ -126,6 +126,7 @@ extern void ifd_epass3k_register(void);
 extern void ifd_etoken_register(void);
 extern void ifd_etoken64_register(void);
 extern void ifd_eutron_register(void);
+extern void ifd_extern_register(void);
 extern void ifd_gempc_register(void);
 extern void ifd_ikey2k_register(void);
 extern void ifd_ikey3k_register(void);
@@ -154,6 +155,7 @@ extern ifd_device_t *ifd_open_pcmcia_block(const char *);
 extern ifd_device_t *ifd_open_pcmcia(const char *);
 extern ifd_device_t *ifd_open_psaux(const char *);
 extern ifd_device_t *ifd_open_remote(const char *);
+extern ifd_device_t *ifd_open_extern(const char *);
 extern ifd_device_t *ifd_open_serial(const char *);
 extern ifd_device_t *ifd_open_usb(const char *);
 extern ifd_device_t *ifd_device_new(const char *,
