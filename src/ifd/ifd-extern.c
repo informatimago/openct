@@ -1,12 +1,13 @@
-/* 
-* The extern driver implements a smartcard driver that forwards all
-* operations to an external process.  This process can be implemented
-* in any programming language.
-* 
-* Copyright(C) 2018,  Pascal J. Bourguignon <pjb@informatimago.com> 
-* 
-* This code is released under the LGPL-2.1 or later.
-*/ 
+/*
+ * The extern driver implements a smartcard driver that forwards all
+ * operations to an external process (thru the extern device).
+ * This process can be implemented in any programming language.
+ *
+ * Copyright(C) 2018,  Pascal J. Bourguignon <pjb@informatimago.com>
+ *
+ * This code is released under the LGPL-2.1 or later.
+ */
+
 
 #include "internal.h"
 #include <stdlib.h>
@@ -14,25 +15,9 @@
 #include <stdio.h>
 
 
-/*
-
-This driver forks an external process (specified in the
-configuration), that represents the card reader.  This process should
-manage or emulate the smartcard, their insertion/retraction, and
-their communication or simulation, either in the same process or in
-subprocess, depending on the security requirements of the external
-process.
-
-This driver can be used with external programs to simulate smartcards,
-to implement communication with a TEE smartcard implementation,  to
-implement a smartcard running in virtual TEE (eg. based on white-box
-encryption), etc.
- 
-*/
-
 typedef struct extern_priv
 {
-    
+
 } extern_priv_t;
 
 
@@ -75,7 +60,7 @@ static int extern_close(ifd_reader_t * reader)
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Terminates the external process. */ 
+    /* Terminates the external process. */
     return -1;
 }
 
@@ -109,7 +94,7 @@ static int extern_change_parity(ifd_reader_t *reader, int parity)
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to simulate / implement the change of parity */ 
+    /* Communicate with the external process to simulate / implement the change of parity */
     return -1;
 }
 
@@ -128,7 +113,7 @@ static int extern_change_speed(ifd_reader_t *reader, unsigned int speed)
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to simulate / implement the change of speed */ 
+    /* Communicate with the external process to simulate / implement the change of speed */
     return -1;
 }
 
@@ -150,7 +135,7 @@ static int extern_activate(ifd_reader_t *reader)
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to activate the simulated or implemented reader. */ 
+    /* Communicate with the external process to activate the simulated or implemented reader. */
     return -1;
 }
 
@@ -169,7 +154,7 @@ static int extern_deactivate(ifd_reader_t *reader)
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to deactivate the simulated or implemented reader. */ 
+    /* Communicate with the external process to deactivate the simulated or implemented reader. */
     return -1;
 }
 
@@ -202,7 +187,7 @@ static int extern_card_status(ifd_reader_t *reader, int slot, int *status)
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
 
@@ -226,7 +211,7 @@ static int extern_card_reset(ifd_reader_t *reader, int slot, void *atr, size_t a
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
 
@@ -251,7 +236,7 @@ static int extern_card_request(ifd_reader_t *reader, int slot,
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
 
@@ -274,7 +259,7 @@ static int extern_card_eject(ifd_reader_t *reader, int slot,
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
 
@@ -289,7 +274,7 @@ static int extern_output(ifd_reader_t *reader, const char *message)
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
 
@@ -316,11 +301,11 @@ static int extern_perform_verify(ifd_reader_t *reader,
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
 
-    
+
 /**
 * Send an APDU using the currently selected protocol.
 *
@@ -345,11 +330,11 @@ static int extern_send(ifd_reader_t *reader,
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
 
-    
+
 /**
 * Receive an APDU response using the currently selected protocol.
 *
@@ -371,10 +356,10 @@ static int extern_recv(ifd_reader_t *reader,
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
-    
+
 /**
 * Select the smart card communication protocol.
 *
@@ -401,7 +386,7 @@ static int extern_set_protocol(ifd_reader_t *reader, int slot, int protocol)
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
 
@@ -427,10 +412,10 @@ static int extern_transparent(ifd_reader_t *reader, int slot,
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
-    
+
 
 /**
 * Read data from a synchronous smart card.
@@ -449,11 +434,11 @@ static int extern_sync_read(ifd_reader_t *reader, int slot, int proto,
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
-    
-    
+
+
 /**
 * Write data to a synchronous smart card.
 *
@@ -471,11 +456,11 @@ static int extern_sync_write(ifd_reader_t *reader, int slot, int proto,
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
-    
-    
+
+
 
 /*Support for transparent access to "escape" */
 static int extern_escape(ifd_reader_t *reader, int slot,
@@ -484,11 +469,11 @@ static int extern_escape(ifd_reader_t *reader, int slot,
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
-    
-    
+
+
 
 /**
 * Execute before command.
@@ -501,11 +486,11 @@ static int extern_before_command (ifd_reader_t * reader)
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
-    
-    
+
+
 
 /**
 * Execute after command.
@@ -518,11 +503,11 @@ static int extern_after_command (ifd_reader_t * reader)
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
-    
-    
+
+
 
 /**
 * Get event fd.
@@ -536,11 +521,11 @@ static int extern_get_eventfd (ifd_reader_t * reader, short *events)
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
-    
-    
+
+
 
 /**
 * Event callback.
@@ -554,11 +539,11 @@ static int extern_event (ifd_reader_t * reader, int *status, size_t status_size)
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
-    
-    
+
+
 
 /**
 * Error callback.
@@ -573,10 +558,10 @@ static int extern_error (ifd_reader_t * reader)
 {
     fprintf(stderr,"%s()\n",__FUNCTION__);
 
-    /* Communicate with the external process to obtain card status. */ 
+    /* Communicate with the external process to obtain card status. */
     return -1;
 }
-    
+
 static struct ifd_driver_ops ops;
 
 void ifd_extern_register(void)

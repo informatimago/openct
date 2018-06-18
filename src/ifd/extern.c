@@ -1,3 +1,15 @@
+/*
+ * The extern device implements a smartcard device that forwards all
+ * operations to an external process.  This process can be implemented
+ * in any programming language.
+ *
+ * Copyright(C) 2018,  Pascal J. Bourguignon <pjb@informatimago.com>
+ *
+ * This code is released under the LGPL-2.1 or later.
+ */
+
+
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -18,6 +30,25 @@
 #include <openct/server.h>
 #include <openct/logging.h>
 #include "internal.h"
+
+
+
+/*
+
+This device forks an external process (specified in the
+configuration), that represents the card reader.  This process should
+manage or emulate the smartcard, their insertion/retraction, and
+their communication or simulation, either in the same process or in
+subprocess, depending on the security requirements of the external
+process.
+
+This device can be used with external programs to simulate smartcards,
+to implement communication with a TEE smartcard implementation,  to
+implement a smartcard running in virtual TEE (eg. based on white-box
+encryption), etc.
+
+*/
+
 
 
 /* Reset device */
